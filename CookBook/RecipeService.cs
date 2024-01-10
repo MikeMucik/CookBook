@@ -54,7 +54,9 @@ namespace CookBook
                 recipe.Ingredients.Add(ingredient);
 
             }
-
+            Console.WriteLine("\r\nPlease enter description of recipe: ");
+            var description = Console.ReadLine();
+            recipe.Description = description;
             recipe.Id = recipeId;// tu dodajemy id
             recipe.Name = name; //czemu tu jest ostrzeżenie ?(teraz nie ma bo jest"?" w recipe       tu dodajemy nazwę 
             Recipes.Add(recipe);//Tu dodajemy przepis id+nazwa wcześniej wybrana kategoria
