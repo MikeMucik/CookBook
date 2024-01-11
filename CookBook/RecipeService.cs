@@ -64,20 +64,7 @@ namespace CookBook
 
         }
 
-        //public int AddNewRecipe(char recipeCategory, int id)
-        // {
-        //     int recipeCategoryId;
-        //     Int32.TryParse(recipeCategory.ToString(), out recipeCategoryId);
-        //     Recipe recipe = new Recipe();
-        //     recipe.CategoryId = recipeCategoryId;
-        //     Console.WriteLine("\r\nPlease enter name for new recipe: ");
-        //     var name = Console.ReadLine();
 
-        //     recipe.Name = name;
-
-        //     Recipes.Add(recipe);
-        //     return id;
-        // }
         public int RemoveRecipeView()
         {
             Console.WriteLine("\r\nPlease enter number id of recipe to remove: ");
@@ -127,6 +114,7 @@ namespace CookBook
             {
                 Console.Write(" " + ingredient);
             }
+            Console.WriteLine($"\r\nRecipe description: {productToShow.Description}");
 
         }
 
@@ -147,7 +135,6 @@ namespace CookBook
                 if (recipe.CategoryId == detailRecipeByCategory)
                 {
                     productToShow = recipe;
-
                 }
 
                 Console.WriteLine($"\r\nRecipe id: {productToShow.Id} \r\nRecipe name: {productToShow.Name} \r\nRecipe category: {productToShow.CategoryId}");
@@ -157,6 +144,7 @@ namespace CookBook
                 {
                     Console.Write(" " + ingredient);
                 }
+                Console.WriteLine($"\r\nRecipe description: {productToShow.Description}");
             }
         }
 
@@ -169,40 +157,20 @@ namespace CookBook
 
         public void ShowRecipesByIngredient(string detailRecipeByIngredient)
         {
-            //  Recipe productToShow = new Recipe();
             foreach (var recipe in Recipes)
             {
                 if (recipe.Ingredients.Contains(detailRecipeByIngredient))
                 {
-                    //  productToShow = recipe;
-
-
-
                     Console.WriteLine($"\r\nRecipe id: {recipe.Id} \r\nRecipe name: {recipe.Name} \r\nRecipe category: {recipe.CategoryId}");
-                    Console.WriteLine($"\r\nRecipe description: {recipe.Description}");
+
                     Console.WriteLine("Recipe ingredients :");
                     foreach (var ingredient in recipe.Ingredients)
                     {
                         Console.Write(" " + ingredient);
                     }
+                    Console.WriteLine($"\r\nRecipe description: {recipe.Description}");
                 }
             }
         }
-        //public int ShowRecipesByCategoryView()
-        //{
-        //    var addNewRecipeMenu = actionService.GetMenuActionsByMenuName("AddNewRecipeMenu");
-        //    Console.WriteLine("\r\nPlease select category of meal: ");
-        //    for (int i = 0; i < addNewRecipeMenu.Count; i++)
-        //    {
-        //        Console.WriteLine($"{addNewRecipeMenu[i].Id} {addNewRecipeMenu[i].Name}");
-        //    }
-        //    Console.WriteLine("Choose category of ")
-        //    return CategoryId
-        //}
-
-
-
-
-
     }
 }
