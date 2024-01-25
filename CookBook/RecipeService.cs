@@ -104,7 +104,10 @@ namespace CookBook
             {
                 Recipes.Remove(productToRemove); //tu usuwamy przepis
             }
-
+            else
+            {
+                Console.WriteLine("You didn't choose existing recipe");
+            }
         }
 
         public int RecipeChooseIdView()
@@ -118,7 +121,7 @@ namespace CookBook
 
         public void ShowRecipe(int detailId)
         {
-            Recipe productToShow = new Recipe();
+            Recipe productToShow = null; // jak daje "Recipe productToShow ;" mam błąd kompilacji dlatego = null
             foreach (var recipe in Recipes)
             {
                 if (recipe.Id == detailId)
@@ -155,28 +158,29 @@ namespace CookBook
 
         public void ShowRecipesByCategory(int detailRecipeByCategory)
         {
-            Recipe productToShow = null;
+            Recipe productToShow = null; // jak daje "Recipe productToShow ;" mam błąd kompilacji dlatego = null
             foreach (var recipe in Recipes)
             {
                 if (recipe.CategoryId == detailRecipeByCategory)
                 {
                     productToShow = recipe;
                 }
-                if (productToShow != null)
-                {
-                    Console.WriteLine($"\r\nRecipe id: {productToShow.Id} \r\nRecipe name: {productToShow.Name} \r\nRecipe category: {productToShow.CategoryId}");
-                    Console.WriteLine("Recipe ingredients :");
-                    foreach (var ingredient in productToShow.Ingredients)
-                    {
-                        Console.Write(" " + ingredient);
-                    }
-                    Console.WriteLine($"\r\nRecipe description: {productToShow.Description}");
-                }
-                else
-                {
-                    Console.WriteLine("There is no recipes to show"); 
-                }
             }
+            if (productToShow != null)
+            {
+                Console.WriteLine($"\r\nRecipe id: {productToShow.Id} \r\nRecipe name: {productToShow.Name} \r\nRecipe category: {productToShow.CategoryId}");
+                Console.WriteLine("Recipe ingredients :");
+                foreach (var ingredient in productToShow.Ingredients)
+                {
+                    Console.Write(" " + ingredient);
+                }
+                Console.WriteLine($"\r\nRecipe description: {productToShow.Description}");
+            }
+            else
+            {
+                Console.WriteLine("There is no recipes to show");
+            }
+
         }
 
         public string RecipeChooseIngredientView()
@@ -200,6 +204,10 @@ namespace CookBook
                         Console.Write(" " + ingredient);
                     }
                     Console.WriteLine($"\r\nRecipe description: {recipe.Description}");
+                }
+                else
+                {
+                    Console.WriteLine("There is no recipes with insert ingredient");
                 }
             }
         }

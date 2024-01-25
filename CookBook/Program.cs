@@ -91,6 +91,10 @@ namespace CookBook
                         recipeService.ShowRecipesByCategory(detailRecipeByCategory);
                         break;
 
+                    case '6':
+
+                        break;
+
                     default:
                         Console.WriteLine("\r\n Your choice is incorrect");
                         break;
@@ -106,6 +110,7 @@ namespace CookBook
             actionService.AddNewAction(3, "Show recipe by id", "Main");
             actionService.AddNewAction(4, "Find recipes by ingredient", "Main");
             actionService.AddNewAction(5, "Find recipe by category", "Main");
+            actionService.AddNewAction(6, "Edit recipe", "Main");
 
             actionService.AddNewAction(1, "Breakfast", "AddNewRecipeMenu");
             actionService.AddNewAction(2, "Lunch", "AddNewRecipeMenu");
