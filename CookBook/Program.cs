@@ -37,7 +37,7 @@ namespace CookBook
 
             ////// 2a. Wybierz przepis po id lub nazwie
             ////// 2b. Usuń przepis z listy
-            
+
             ////// 3a. Wybierz id przepisu
             ////// 3b. Wypisz szczegóły przepisu
 
@@ -63,12 +63,12 @@ namespace CookBook
                 }
 
                 var operation = Console.ReadKey();
-                                switch (operation.KeyChar)
+                switch (operation.KeyChar)
                 {
                     case '1':
 
                         var keyInfo = recipeService.AddNewRecipeView(actionService); //wybierz kategorię posiłku
-                        /*var id = */recipeService.AddNewRecipe(keyInfo.KeyChar); //czy potrzebne to id ?
+                        recipeService.AddNewRecipe(keyInfo.KeyChar);
                         break;
 
                     case '2':

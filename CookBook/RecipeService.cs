@@ -13,6 +13,7 @@ namespace CookBook
         {
             Recipes = new List<Recipe>();
         }
+        private static int recipeId = 0; // próba nadawania id
 
 
 
@@ -35,33 +36,48 @@ namespace CookBook
             Int32.TryParse(recipeCategory.ToString(), out recipeCategoryId);
             Recipe recipe = new Recipe();
             recipe.CategoryId = recipeCategoryId;
-            Console.WriteLine("\r\nPlease enter id for a new recipe: ");
-            var id = Console.ReadLine();
-            int recipeId;
-            Int32.TryParse(id, out recipeId);
+            //Console.WriteLine("\r\nPlease enter id for a new recipe: ");
+            //var id = Console.ReadLine();
+            recipeId++;
+            recipe.Id = recipeId;
+
+            //Int32.TryParse(id, out recipeId);
+
             Console.WriteLine("\r\nPlease enter name for a new recipe: ");
             var name = Console.ReadLine();
 
 
             Console.WriteLine("\r\nPlease enter number of ingredients: ");
             var numberOfIngredient = Console.ReadLine();
-            int recipeNumberOfIgredient;
-            Int32.TryParse(numberOfIngredient, out recipeNumberOfIgredient);
-            for (int i = 0; i < recipeNumberOfIgredient; i++)
-            {
-                Console.WriteLine($"\r\nPlease enter {i + 1} ingredients:");
-                var ingredient = Console.ReadLine();
-                recipe.Ingredients.Add(ingredient);
+            //sprawdzenie czy użytkownik podał liczbę
 
+            int recipeNumberOfIgredient;
+            bool isNumeric = Int32.TryParse(numberOfIngredient, out recipeNumberOfIgredient);
+
+            if (isNumeric)
+            {
+                for (int i = 0; i < recipeNumberOfIgredient; i++)
+                {
+                    Console.WriteLine($"\r\nPlease enter {i + 1} ingredients:");
+                    var ingredient = Console.ReadLine();
+                    recipe.Ingredients.Add(ingredient);
+
+                }
+            }
+            else
+            {
+                Console.WriteLine("You didn't enter number of ingredients");
             }
             Console.WriteLine("\r\nPlease enter description of recipe: ");
+
             var description = Console.ReadLine();
             recipe.Description = description;
+
             recipe.Id = recipeId;// tu dodajemy id
-            recipe.Name = name; //czemu tu jest ostrzeżenie ?(teraz nie ma bo jest"?" w recipe       tu dodajemy nazwę 
+
+            recipe.Name = name; //czemu tu jest ostrzeżenie ?(teraz nie ma bo jest"?" w recipe, tu dodajemy nazwę 
             Recipes.Add(recipe);//Tu dodajemy przepis id+nazwa wcześniej wybrana kategoria
             return recipeId;
-
         }
 
 
@@ -71,11 +87,11 @@ namespace CookBook
             var recipeId = Console.ReadLine();
             int id;
             Int32.TryParse(recipeId, out id);
-            return id;
+            return id; // które poniżej będzie równe removeId
         }
         public void RemoveRecipe(int removeId)
         {
-            Recipe productToRemove = new Recipe();
+            Recipe productToRemove = null; // jak daje "Recipe productToRemove ;" mam błąd kompilacji dlatego = null
             foreach (var recipe in Recipes)
             {
                 if (recipe.Id == removeId)
@@ -84,7 +100,11 @@ namespace CookBook
                     break;
                 }
             }
-            Recipes.Remove(productToRemove); //tu usuwamy przepis
+            if (productToRemove != null)
+            {
+                Recipes.Remove(productToRemove); //tu usuwamy przepis
+            }
+
         }
 
         public int RecipeChooseIdView()
@@ -107,15 +127,21 @@ namespace CookBook
                     break;
                 }
             }
-            Console.WriteLine($"Recipe id: {productToShow.Id} \r\nRecipe name: {productToShow.Name} \r\nRecipe category: {productToShow.CategoryId}");
-            //Console.WriteLine($"\r\nRecipe ingredients: {productToShow.Ingredients}\r\nRecipe description: {productToShow.Description}");
-            Console.WriteLine("Recipe ingredients :");
-            foreach (var ingredient in productToShow.Ingredients)
+            if (productToShow != null)
             {
-                Console.Write(" " + ingredient);
+                Console.WriteLine($"Recipe id: {productToShow.Id} \r\nRecipe name: {productToShow.Name} \r\nRecipe category: {productToShow.CategoryId}");
+                //Console.WriteLine($"\r\nRecipe ingredients: {productToShow.Ingredients}\r\nRecipe description: {productToShow.Description}");
+                Console.WriteLine("Recipe ingredients :");
+                foreach (var ingredient in productToShow.Ingredients)
+                {
+                    Console.Write(" " + ingredient);
+                }
+                Console.WriteLine($"\r\nRecipe description: {productToShow.Description}");
             }
-            Console.WriteLine($"\r\nRecipe description: {productToShow.Description}");
-
+            else
+            {
+                Console.WriteLine("There is no recipe for a given id ");
+            }
         }
 
         public int RecipeChooseCategoryView()
