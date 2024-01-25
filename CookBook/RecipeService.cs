@@ -155,22 +155,27 @@ namespace CookBook
 
         public void ShowRecipesByCategory(int detailRecipeByCategory)
         {
-            Recipe productToShow = new Recipe();
+            Recipe productToShow = null;
             foreach (var recipe in Recipes)
             {
                 if (recipe.CategoryId == detailRecipeByCategory)
                 {
                     productToShow = recipe;
                 }
-
-                Console.WriteLine($"\r\nRecipe id: {productToShow.Id} \r\nRecipe name: {productToShow.Name} \r\nRecipe category: {productToShow.CategoryId}");
-                //Console.WriteLine($"\r\nRecipe ingredients: {productToShow.Ingredients}\r\nRecipe description: {productToShow.Description}");
-                Console.WriteLine("Recipe ingredients :");
-                foreach (var ingredient in productToShow.Ingredients)
+                if (productToShow != null)
                 {
-                    Console.Write(" " + ingredient);
+                    Console.WriteLine($"\r\nRecipe id: {productToShow.Id} \r\nRecipe name: {productToShow.Name} \r\nRecipe category: {productToShow.CategoryId}");
+                    Console.WriteLine("Recipe ingredients :");
+                    foreach (var ingredient in productToShow.Ingredients)
+                    {
+                        Console.Write(" " + ingredient);
+                    }
+                    Console.WriteLine($"\r\nRecipe description: {productToShow.Description}");
                 }
-                Console.WriteLine($"\r\nRecipe description: {productToShow.Description}");
+                else
+                {
+                    Console.WriteLine("There is no recipes to show"); 
+                }
             }
         }
 
