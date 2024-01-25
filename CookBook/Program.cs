@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Linq;
+using CookBook.App.Abstract;
+using CookBook.App.Concrete;
+using CookBook.App.Menager;
+using CookBook.Domain.Entity;
 
 namespace CookBook
 {
@@ -37,7 +41,7 @@ namespace CookBook
 
             ////// 2a. Wybierz przepis po id lub nazwie
             ////// 2b. Usuń przepis z listy
-            
+
             ////// 3a. Wybierz id przepisu
             ////// 3b. Wypisz szczegóły przepisu
 
@@ -49,9 +53,13 @@ namespace CookBook
             ////// 5b. Wypisz przepisy z danej kategorii
             ////// 5c. Wybierz przepis z powyżeszej listy
             ///
+            //RService<MenuAction> actionService = new MenuActionService();
+          
             MenuActionService actionService = new MenuActionService();
-            RecipeService recipeService = new RecipeService();
-            actionService = Initialize(actionService);
+
+            RecipeMenager recipeMenager = new RecipeMenager(actionService);
+
+            //RService<Recipe> recipeService = new RecipeService();
             Console.WriteLine("Welcome in our CookBook");
             while (true)
             {
@@ -63,33 +71,38 @@ namespace CookBook
                 }
 
                 var operation = Console.ReadKey();
-                                switch (operation.KeyChar)
+                switch (operation.KeyChar)
                 {
                     case '1':
 
-                        var keyInfo = recipeService.AddNewRecipeView(actionService); //wybierz kategorię posiłku
-                        /*var id = */recipeService.AddNewRecipe(keyInfo.KeyChar); //czy potrzebne to id ?
+                        var newId = recipeMenager.AddNewRecipe();
+
+                        //var keyInfo = recipeService.AddNewRecipeView(actionService); //wybierz kategorię posiłku
+                        ///*var id = */
+                        //recipeService.AddNewRecipe(keyInfo.KeyChar); //czy potrzebne to id ?
                         break;
 
                     case '2':
-                        var removeId = recipeService.RemoveRecipeView();
-                        recipeService.RemoveRecipe(removeId);
+                        recipeMenager.RemoveRecipeById();
+                        //var removeId = recipeMenager.RemoveRecipeById();
+                        //    var removeId = recipeService.RemoveRecipeView();
+                        //    recipeService.RemoveRecipe(removeId);
                         break;
 
                     case '3':
-                        var detailId = recipeService.RecipeChooseIdView();
-                        recipeService.ShowRecipe(detailId);
+                        //    var detailId = recipeService.RecipeChooseIdView();
+                        //    recipeService.ShowRecipe(detailId);
                         break;
 
-                    case '4':
-                        var detailRecipeByIngredient = recipeService.RecipeChooseIngredientView();
-                        recipeService.ShowRecipesByIngredient(detailRecipeByIngredient);
-                        break;
+                    //case '4':
+                    //    var detailRecipeByIngredient = recipeService.RecipeChooseIngredientView();
+                    //    recipeService.ShowRecipesByIngredient(detailRecipeByIngredient);
+                    //    break;
 
-                    case '5':
-                        var detailRecipeByCategory = recipeService.RecipeChooseCategoryView();
-                        recipeService.ShowRecipesByCategory(detailRecipeByCategory);
-                        break;
+                    //case '5':
+                    //    var detailRecipeByCategory = recipeService.RecipeChooseCategoryView();
+                    //    recipeService.ShowRecipesByCategory(detailRecipeByCategory);
+                    //    break;
 
                     default:
                         Console.WriteLine("\r\n Your choice is incorrect");
@@ -99,24 +112,6 @@ namespace CookBook
 
         }
 
-        private static MenuActionService Initialize(MenuActionService actionService)
-        {
-            actionService.AddNewAction(1, "Add recipes", "Main");
-            actionService.AddNewAction(2, "Remove recipe", "Main");
-            actionService.AddNewAction(3, "Show recipe by id", "Main");
-            actionService.AddNewAction(4, "Find recipes by ingredient", "Main");
-            actionService.AddNewAction(5, "Find recipe by category", "Main");
 
-            actionService.AddNewAction(1, "Breakfast", "AddNewRecipeMenu");
-            actionService.AddNewAction(2, "Lunch", "AddNewRecipeMenu");
-            actionService.AddNewAction(3, "Dinner", "AddNewRecipeMenu");
-            actionService.AddNewAction(4, "Soup", "AddNewRecipeMenu");
-            actionService.AddNewAction(5, "Appetizer", "AddNewRecipeMenu");
-            actionService.AddNewAction(6, "Drink", "AddNewRecipeMenu");
-            actionService.AddNewAction(7, "Dessert", "AddNewRecipeMenu");
-
-            return actionService;
-
-        }
     }
 }
