@@ -9,22 +9,7 @@ namespace CookBook
     {
         static void Main(string[] args)
         {
-            //GenericService<Recipe> genericRecipeService = new GenericService<Recipe>();
-
-            //Recipe itemForGeneric = new Recipe(1, "Apple");
-            //Recipe item2ForGeneric = new Recipe(2, "Strawberry");
-            //genericRecipeService.Add(itemForGeneric);
-            //genericRecipeService.Add(item2ForGeneric);
-
-            //var items = genericRecipeService.GetAll();
-
-
-            //genericRecipeService.Remove(recipe2ForGeneric);
-
-            //GenericService<MenuAction> genericActionService = new GenericService<MenuAction>();
-            //MenuAction menuAction = new MenuAction(1);
-            //genericActionService.Add(menuAction);
-            // Przywitanie użytkownika
+                       // Przywitanie użytkownika
             //// Wybierz opcję co chcesz zrobić zrobione !!!
             //// 1 Dodaj nowy przepis zrobione !!!
             //// 2 Usuń przepis zrobione !!!
@@ -49,8 +34,8 @@ namespace CookBook
             ////// 5b. Wypisz przepisy z danej kategorii
             ////// 5c. Wybierz przepis z powyżeszej listy
             ///
-            MenuActionService actionService = new MenuActionService();
-            RecipeService recipeService = new RecipeService();
+            MenuActionService actionService = new();
+            RecipeService recipeService = new();
             actionService = Initialize(actionService);
             Console.WriteLine("Welcome in our CookBook");
             while (true)
@@ -91,9 +76,9 @@ namespace CookBook
                         recipeService.ShowRecipesByCategory(detailRecipeByCategory);
                         break;
 
-                    case '6':
+                    //case '6':
 
-                        break;
+                    //    break;
 
                     default:
                         Console.WriteLine("\r\n Your choice is incorrect");
@@ -110,7 +95,7 @@ namespace CookBook
             actionService.AddNewAction(3, "Show recipe by id", "Main");
             actionService.AddNewAction(4, "Find recipes by ingredient", "Main");
             actionService.AddNewAction(5, "Find recipe by category", "Main");
-            actionService.AddNewAction(6, "Edit recipe", "Main");
+            /*actionService.AddNewAction(6, "Edit recipe", "Main")*/;
 
             actionService.AddNewAction(1, "Breakfast", "AddNewRecipeMenu");
             actionService.AddNewAction(2, "Lunch", "AddNewRecipeMenu");
