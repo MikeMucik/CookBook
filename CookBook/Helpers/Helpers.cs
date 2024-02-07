@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CookBook
+namespace CookBook.Helpers
 {
 
     public enum RecipeType
