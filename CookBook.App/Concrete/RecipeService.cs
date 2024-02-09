@@ -7,6 +7,7 @@ using CookBook.App.Common;
 using CookBook.Domain;
 using CookBook.Domain.Entity;
 
+
 namespace CookBook.App.Concrete
 {
     public class RecipeService : BaseService<Recipe>
@@ -113,106 +114,107 @@ namespace CookBook.App.Concrete
         //    }
         //}
 
-        public int RecipeChooseIdView()
-        {
-            Console.WriteLine("\r\nPlease enter number id of recipe to show: ");
-            var recipeId = Console.ReadLine();
-            int id;
-            Int32.TryParse(recipeId, out id);
-            return id;
-        }
+        //public int RecipeChooseIdView()
+        //{
+        //    Console.WriteLine("\r\nPlease enter number id of recipe to show: ");
+        //    var recipeId = Console.ReadLine();
+        //    int id;
+        //    Int32.TryParse(recipeId, out id);
+        //    return id;
+        //}
 
-        public void ShowRecipe(int detailId)
-        {
-            Recipe productToShow = null; // jak daje "Recipe productToShow ;" mam błąd kompilacji dlatego = null
-            foreach (var recipe in Recipes)
-            {
-                if (recipe.Id == detailId)
-                {
-                    productToShow = recipe;
-                    break;
-                }
-            }
-            if (productToShow != null)
-            {
-                Console.WriteLine($"Recipe id: {productToShow.Id} \r\nRecipe name: {productToShow.Name} \r\nRecipe category: {productToShow.CategoryId}");
-                //Console.WriteLine($"\r\nRecipe ingredients: {productToShow.Ingredients}\r\nRecipe description: {productToShow.Description}");
-                Console.WriteLine("Recipe ingredients :");
-                foreach (var ingredient in productToShow.Ingredients)
-                {
-                    Console.Write(" " + ingredient);
-                }
-                Console.WriteLine($"\r\nRecipe description: {productToShow.Description}");
-            }
-            else
-            {
-                Console.WriteLine("There is no recipe for a given id ");
-            }
-        }
+        //public void ShowRecipe(int detailId)
+        //{
+        //    Recipe productToShow = null; // jak daje "Recipe productToShow ;" mam błąd kompilacji dlatego = null
+        //    foreach (var recipe in Recipes)
+        //    {
+        //        if (recipe.Id == detailId)
+        //        {
+        //            productToShow = recipe;
+        //            break;
+        //        }
+        //    }
+        //    if (productToShow != null)
+        //    {
+        //        Console.WriteLine($"Recipe id: {productToShow.Id} \r\nRecipe name: {productToShow.Name} \r\nRecipe category: {productToShow.CategoryId}");
+        //        //Console.WriteLine($"\r\nRecipe ingredients: {productToShow.Ingredients}\r\nRecipe description: {productToShow.Description}");
+        //        Console.WriteLine("Recipe ingredients :");
+        //        foreach (var ingredient in productToShow.Ingredients)
+        //        {
+        //            Console.Write(" " + ingredient);
+        //        }
+        //        Console.WriteLine($"\r\nRecipe description: {productToShow.Description}");
+        //    }
+        //    else
+        //    {
+        //        Console.WriteLine("There is no recipe for a given id ");
+        //    }
+        //}
 
-        public int RecipeChooseCategoryView()
-        {
-            Console.WriteLine("\r\nPlease enter number of category of recipes to show: ");
-            var recipeCategory = Console.ReadLine();
-            int category;
-            Int32.TryParse(recipeCategory, out category);
-            return category;
-        }
+        //public int RecipeChooseCategoryView()
+        //{
+        //    Console.WriteLine("\r\nPlease enter number of category of recipes to show: ");
+        //    var recipeCategory = Console.ReadLine();
+        //    int category;
+        //    Int32.TryParse(recipeCategory, out category);
+        //    return category;
+        //}
 
-        public void ShowRecipesByCategory(int detailRecipeByCategory)
-        {
-            Recipe productToShow = null; // jak daje "Recipe productToShow ;" mam błąd kompilacji dlatego = null
-            foreach (var recipe in Recipes)
-            {
-                if (recipe.CategoryId == detailRecipeByCategory)
-                {
-                    productToShow = recipe;
-                }
-            }
-            if (productToShow != null)
-            {
-                Console.WriteLine($"\r\nRecipe id: {productToShow.Id} \r\nRecipe name: {productToShow.Name} \r\nRecipe category: {productToShow.CategoryId}");
-                Console.WriteLine("Recipe ingredients :");
-                foreach (var ingredient in productToShow.Ingredients)
-                {
-                    Console.Write(" " + ingredient);
-                }
-                Console.WriteLine($"\r\nRecipe description: {productToShow.Description}");
-            }
-            else
-            {
-                Console.WriteLine("There is no recipes to show");
-            }
+        //public void ShowRecipesByCategory(int detailRecipeByCategory)
+        //{
+        //    Recipe productToShow = null; // jak daje "Recipe productToShow ;" mam błąd kompilacji dlatego = null
+        //    foreach (var recipe in Recipes)
+        //    {
+        //        if (recipe.CategoryId == detailRecipeByCategory)
+        //        {
+        //            productToShow = recipe;
+        //        }
+        //    }
+        //    if (productToShow != null)
+        //    {
+        //        Console.WriteLine($"\r\nRecipe id: {productToShow.Id} \r\nRecipe name: {productToShow.Name} \r\nRecipe category: {productToShow.CategoryId}");
+        //        Console.WriteLine("Recipe ingredients :");
+        //        foreach (var ingredient in productToShow.Ingredients)
+        //        {
+        //            Console.Write(" " + ingredient);
+        //        }
+        //        Console.WriteLine($"\r\nRecipe description: {productToShow.Description}");
+        //    }
+        //    else
+        //    {
+        //        Console.WriteLine("There is no recipes to show");
+        //    }
 
-        }
+        //}
 
-        public string RecipeChooseIngredientView()
-        {
-            Console.WriteLine("\r\nPlease enter one ingredient to show recipes: ");
-            var detailRecipeByIngredient = Console.ReadLine();
-            return detailRecipeByIngredient;
-        }
+        //public string RecipeChooseIngredientView()
+        //{
+        //    Console.WriteLine("\r\nPlease enter one ingredient to show recipes: ");
+        //    var detailRecipeByIngredient = Console.ReadLine();
+        //    return detailRecipeByIngredient;
+        //}
 
-        public void ShowRecipesByIngredient(string detailRecipeByIngredient)
-        {
-            foreach (var recipe in Recipes)
-            {
-                if (recipe.Ingredients.Contains(detailRecipeByIngredient))
-                {
-                    Console.WriteLine($"\r\nRecipe id: {recipe.Id} \r\nRecipe name: {recipe.Name} \r\nRecipe category: {recipe.CategoryId}");
+        //public void ShowRecipesByIngredient(string detailRecipeByIngredient)
+        //{
+        //    foreach (var recipe in Recipes)
+        //    {
+        //        if (recipe.Ingredients.Contains(detailRecipeByIngredient))
+        //        {
+        //            Console.WriteLine($"\r\nRecipe id: {recipe.Id} \r\nRecipe name: {recipe.Name} \r\nRecipe category: {recipe.CategoryId}");
 
-                    Console.WriteLine("Recipe ingredients :");
-                    foreach (var ingredient in recipe.Ingredients)
-                    {
-                        Console.Write(" " + ingredient);
-                    }
-                    Console.WriteLine($"\r\nRecipe description: {recipe.Description}");
-                }
-                else
-                {
-                    Console.WriteLine("There is no recipes with insert ingredient");
-                }
-            }
-        }
+        //            Console.WriteLine("Recipe ingredients :");
+        //            foreach (var ingredient in recipe.Ingredients)
+        //            {
+        //                Console.Write(" " + ingredient);
+        //            }
+        //            Console.WriteLine($"\r\nRecipe description: {recipe.Description}");
+        //        }
+        //        else
+        //        {
+        //            Console.WriteLine("There is no recipes with insert ingredient");
+        //        }
+        //    }
+        //}
+        
     }
 }

@@ -15,18 +15,6 @@ namespace CookBook.App.Concrete
             Initialize();
         }
 
-        //private List<MenuAction> menuActions;
-        //public MenuActionService() 
-        //{
-        //    menuActions = new List<MenuAction>();// zainicjowanie
-        //}
-
-
-        //public void AddNewAction(int id, string name, string menuName)
-        //{
-        //    MenuAction menuAction = new MenuAction( id, name) { MenuName = menuName };
-        //    menuActions.Add(menuAction); //dodanie konstruktora?
-        //}
         public List<MenuAction> GetMenuActionsByMenuName(string menuName)
         {
             List<MenuAction> result = new List<MenuAction>();
@@ -56,6 +44,11 @@ namespace CookBook.App.Concrete
             AddRecipe(new MenuAction(6, "Drink", "AddNewRecipeMenu"));
             AddRecipe(new MenuAction(7, "Dessert", "AddNewRecipeMenu"));
 
+            AddRecipe(new MenuAction(1, "Name", "KindOfData"));
+            AddRecipe(new MenuAction(2, "Category", "KindOfData"));
+            AddRecipe(new MenuAction(3, "Ingredients", "KindOfData"));
+            AddRecipe(new MenuAction(4, "Description", "KindOfData"));
+            AddRecipe(new MenuAction(5, "Preparation time", "KindOfData"));
         }
     }
 }

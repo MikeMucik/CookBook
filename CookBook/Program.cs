@@ -77,26 +77,5 @@ namespace CookBook
             }
 
         }
-
-        //private static MenuActionService Initialize(MenuActionService actionService)
-        //{
-        //    actionService.AddNewAction(1, "Add recipes", "Main");
-        //    actionService.AddNewAction(2, "Remove recipe", "Main");
-        //    actionService.AddNewAction(3, "Show recipe by id", "Main");
-        //    actionService.AddNewAction(4, "Find recipes by ingredient", "Main");
-        //    actionService.AddNewAction(5, "Find recipe by category", "Main");
-        //    /*actionService.AddNewAction(6, "Edit recipe", "Main")*/;
-
-        //    actionService.AddNewAction(1, "Breakfast", "AddNewRecipeMenu");
-        //    actionService.AddNewAction(2, "Lunch", "AddNewRecipeMenu");
-        //    actionService.AddNewAction(3, "Dinner", "AddNewRecipeMenu");
-        //    actionService.AddNewAction(4, "Soup", "AddNewRecipeMenu");
-        //    actionService.AddNewAction(5, "Appetizer", "AddNewRecipeMenu");
-        //    actionService.AddNewAction(6, "Drink", "AddNewRecipeMenu");
-        //    actionService.AddNewAction(7, "Dessert", "AddNewRecipeMenu");
-
-        //    return actionService;
-
-        //}
     }
 }

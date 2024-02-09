@@ -13,27 +13,22 @@ namespace CookBook.Domain.Entity
         public string? Name { get; set; }
         public int CategoryId { get; set; }
 
-        public List<string> Ingredients { get; set; }
+        public List<string?> Ingredients { get; set; }
         public string? Description { get; set; }
-        public Recipe(int id, string? name, int categoryId, List<string> ingredients, string? description)
+        public string? TimeOfPreparation { get; set; }
+        public Recipe(int id, string? name, int categoryId, List<string?> ingredients, string? description, string? timeOfPreparation)
         {
             Id = id;//czy to dało efekt?
             Name = name;
             CategoryId = categoryId;
             Ingredients = ingredients;
             Description = description;
-        }
-        public Recipe(int id)
-        {
-            Id = Id;
+            TimeOfPreparation = timeOfPreparation;
         }
         //public Recipe()
         //{
-        //    Ingredients = new List<string>();
+            
         //}
-        //public Recipe(int id, string? name, int categoryId, List<string> ingredients, string? description)
-        //{
-
-        //}
+        
     }
 }

@@ -4,7 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CookBook.App.Abstract;
+using CookBook.App.Concrete;
+//using.CookBook.App.Managers;
 using CookBook.Domain.Common;
+using CookBook.Domain.Entity;
 
 namespace CookBook.App.Common
 {
@@ -15,6 +18,7 @@ namespace CookBook.App.Common
         {
             Recipes = new List<T>();
         }
+
         public int GetLastId()
         {
             int lastId;
@@ -27,8 +31,8 @@ namespace CookBook.App.Common
                 lastId = 0;
             }
             return lastId;
-
         }
+
         public int AddRecipe(T recipe)
         {
             Recipes.Add(recipe);
@@ -47,16 +51,12 @@ namespace CookBook.App.Common
         public T GetRecipeById(int id)
         {
             var entity = Recipes.FirstOrDefault(r => r.Id == id);
+
             return entity;
         }
 
-        //public T GetRecipeByIngredient (string ingredient)
-        //{
-
-        //}
         public int UpdateRecipe(T recipe)
         {
-
             var entity = Recipes.FirstOrDefault(r => r.Id == recipe.Id);
             if (entity != null)
             {
