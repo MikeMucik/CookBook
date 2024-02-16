@@ -5,16 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 using CookBook.App.Concrete;
 using CookBook.Domain.Entity;
+using CookBook.App.Abstract;
+using CookBook.App.Common; // to dodałem bo AddRecipeNew nie używa AddRecipe tj nie zwraca recipe.Id daje zero zaniast 1 ???
+using System.Xml.Linq;
 
 namespace CookBook.App.Managers
 {
     public class RecipeManager
     {
         private readonly MenuActionService _actionService;
-        private RecipeService _recipeService;
-        public RecipeManager(MenuActionService actionService)
+        private IService<Recipe> _recipeService;
+        //private RecipeService _recipeService;
+        public RecipeManager(MenuActionService actionService, IService<Recipe> recipeService)
         {
-            _recipeService = new RecipeService();
+            _recipeService = recipeService;
             _actionService = actionService;
         }
 
@@ -37,14 +41,27 @@ namespace CookBook.App.Managers
 
             int recipeNumberOfIgredient;
             bool isNumeric = Int32.TryParse(numberOfIngredient, out recipeNumberOfIgredient);
-            var ingredients = new List<string?>();
+            var ingredients = new List<Ingredient>();
             if (isNumeric)
             {
                 for (int i = 0; i < recipeNumberOfIgredient; i++)
                 {
-                    Console.WriteLine($"\r\nPlease enter {i + 1} ingredients:");
-                    var ingredient = Console.ReadLine();
-                    ingredients.Add(ingredient);
+                    Console.WriteLine($"\r\nPlease enter name {i + 1} ingredients:");
+                    var nameIngredient = Console.ReadLine();
+                    Console.WriteLine($"\r\nPlease enter quantity of{nameIngredient}:");
+                    var quantityString = Console.ReadLine();
+                    if (Int32.TryParse(quantityString?.ToString(), out int quantity))
+                    {
+                        Console.WriteLine($"\r\nPlease enter unit of{nameIngredient}:");
+
+                    }
+                    else
+                    {
+                        Console.WriteLine("Your insert is not correct. Please try again");
+                        AddNewRecipe();
+                    }
+                    var unit = Console.ReadLine();
+                    ingredients.Add(new Ingredient(nameIngredient, quantity, unit));
                 }
             }
             else
@@ -52,14 +69,18 @@ namespace CookBook.App.Managers
                 Console.WriteLine("You didn't enter number of ingredients");
             }
             Console.WriteLine("\r\nPlease enter description of recipe: ");
-
             var description = Console.ReadLine();
             Console.WriteLine("\r\nPlease enter time preparation of recipe: ");
             var timeOfPreparation = Console.ReadLine();
+            Console.WriteLine("\r\nPlease enter dificult of recipe: ");
+            var dificultOfPreparationString = Console.ReadKey();
+            Int32.TryParse(dificultOfPreparationString.KeyChar.ToString(), out int dificultOfPreparation);
+            var numberOfPortionsString = Console.ReadKey();
+            Int32.TryParse(numberOfPortionsString.KeyChar.ToString(), out int numberOfProportions);
             var lastId = _recipeService.GetLastId();
             var lastIdHere = lastId + 1;
             //czy wprowadzenie lastId dało efekt?
-            Recipe recipe = new Recipe(lastIdHere, name, categoryId, ingredients, description, timeOfPreparation);
+            Recipe recipe = new Recipe(lastIdHere, name, categoryId, ingredients, description, timeOfPreparation, dificultOfPreparation, numberOfProportions);
             _recipeService.AddRecipe(recipe);
             return recipe.Id;
         }
@@ -84,7 +105,7 @@ namespace CookBook.App.Managers
             else
             {
                 Console.WriteLine("\r\nInvalid input for recipe id.");
-               // RemoveRecipeById();
+                // RemoveRecipeById();
             }
         }
 
@@ -101,12 +122,14 @@ namespace CookBook.App.Managers
                     Console.WriteLine($"Name: {recipeToShow.Name}");
                     Console.WriteLine($"Category: {recipeToShow.CategoryId}");
                     Console.WriteLine("Ingredients: ");
-                    foreach (var ingrdient in recipeToShow.Ingredients)
+                    foreach (var ingredient in recipeToShow.Ingredients)
                     {
-                        Console.Write($" {ingrdient}");
+                        Console.WriteLine((" " + ingredient.NameIngredient + " " + ingredient.Quantity + " " + ingredient.Unit));
                     }
-                    Console.WriteLine($"\r\nDescription: {recipeToShow.Description}");
-                    Console.WriteLine($"\r\nRecipe description: {recipeToShow.TimeOfPreparation}");
+                    Console.WriteLine($"Description: {recipeToShow.Description}");
+                    Console.WriteLine($"Time to preparation: {recipeToShow.TimeOfPreparation}");
+                    Console.WriteLine($"Difficult: {recipeToShow.Difficulty}");
+                    Console.WriteLine($"Portions: {recipeToShow.Portions}");
                 }
                 else
                 {
@@ -116,20 +139,21 @@ namespace CookBook.App.Managers
             else
             {
                 Console.WriteLine("\r\nInvalid input for recipe id.");
-               // GetByIdRecipe();
+                // GetByIdRecipe();
             }
         }
 
         public void GetRecipeByIngredient()
         {
-                      Console.WriteLine("\r\nPlease enter one ingredient to show recipes: ");
+            Console.WriteLine("\r\nPlease enter one ingredient to show recipes: ");
             var recipesToShowByIngredient = Console.ReadLine();
 
             List<Recipe> matchingRecipes = new List<Recipe>();
             var allRecipes = _recipeService.GetAllRecipes();
             foreach (var recipe in allRecipes)
             {
-                if (recipe.Ingredients.Contains(recipesToShowByIngredient))
+                if (recipe.Ingredients.Any(i => i.NameIngredient == recipesToShowByIngredient)) ;
+                // tu zacznij dalej poprawiać ?
                 {
                     matchingRecipes.Add(recipe);
                 }
@@ -137,6 +161,7 @@ namespace CookBook.App.Managers
                 if (matchingRecipes.Count == 0)
                 {
                     Console.WriteLine("There is no recipes with insert ingredient");
+                   // GetRecipeByIngredient();
                 }
                 else
                 {
@@ -145,11 +170,12 @@ namespace CookBook.App.Managers
                     Console.WriteLine("Recipe ingredients :");
                     foreach (var ingredient in recipe.Ingredients)
                     {
-                        Console.Write(" " + ingredient);
+                        Console.Write((" " + ingredient.NameIngredient + " " + ingredient.Quantity + " " + ingredient.Unit));
                     }
-                    Console.WriteLine($"\r\nRecipe description: {recipe.Description}");
-                    Console.WriteLine($"\r\nRecipe description: {recipe.TimeOfPreparation}");
-
+                    Console.WriteLine($"Recipe description: {recipe.Description}");
+                    Console.WriteLine($"Time to preparation: {recipe.TimeOfPreparation}");
+                    Console.WriteLine($"Difficult: {recipe.Difficulty}");
+                    Console.WriteLine($"Portions: {recipe.Portions}");
                 }
 
             }
@@ -175,15 +201,19 @@ namespace CookBook.App.Managers
                     Console.WriteLine("Recipe ingredients :");
                     foreach (var ingredient in recipe.Ingredients)
                     {
-                        Console.Write(" " + ingredient);
+                        Console.Write(" " + ingredient.NameIngredient + " " + ingredient.Quantity + " " + ingredient.Unit);
                     }
-                    Console.WriteLine($"\r\nRecipe description: {recipe.Description}");
+                    Console.WriteLine($"\r\nTime to preparation: {recipe.TimeOfPreparation}");
+                    Console.WriteLine($"Difficult: {recipe.Difficulty}");
+                    Console.WriteLine($"Portions: {recipe.Portions}");
                 }
                 else
                 {
                     Console.WriteLine("There is no recipes with insert category");
                 }
+                //return recipe;
             }
+
         }
 
         public void EditRecipe()
@@ -229,14 +259,19 @@ namespace CookBook.App.Managers
                             var numberOfIngredient = Console.ReadLine();
                             int recipeNumberOfIgredient;
                             bool isNumeric = Int32.TryParse(numberOfIngredient, out recipeNumberOfIgredient);
-                            var ingredients = new List<string?>();
+                            var ingredients = new List<Ingredient>();
                             if (isNumeric)
                             {
                                 for (int i = 0; i < recipeNumberOfIgredient; i++)
                                 {
-                                    Console.WriteLine($"\r\nPlease enter {i + 1} ingredient:");
-                                    var newIngredient = Console.ReadLine();
-                                    ingredients.Add(newIngredient);
+                                    Console.WriteLine($"\r\nPlease enter {i + 1} ingredients:");
+                                    var name = Console.ReadLine();
+                                    Console.WriteLine($"\r\nPlease enter quantity of {name}:");
+                                    var quantityString = Console.ReadLine();
+                                    Int32.TryParse(quantityString.ToString(), out int quantity);
+                                    Console.WriteLine($"\r\nPlease enter unit of {name}:");
+                                    var unit = Console.ReadLine();
+                                    ingredients.Add(new Ingredient(name, quantity, unit));
                                 }
                             }
                             else
@@ -258,6 +293,23 @@ namespace CookBook.App.Managers
                             recipeToChange.TimeOfPreparation = newTimeOfPreparation;
                             _recipeService.UpdateRecipe(recipeToChange);
                             break;
+                        case 6:
+                            Console.WriteLine("\r\nInsert new diffuclt of recipe :");
+                            var newDifficultOfRecipeString = Console.ReadKey();
+                            Int32.TryParse(newDifficultOfRecipeString.KeyChar.ToString(), out int difficult);
+                            recipeToChange.Difficulty = difficult;
+                            _recipeService.UpdateRecipe(recipeToChange);
+                            break;
+                        case 7:
+                            Console.WriteLine("\r\nInsert new number portions of recipe :");
+                            var newNumberOfPortions = Console.ReadKey();
+                            Int32.TryParse(newNumberOfPortions.KeyChar.ToString(), out int portion);
+                            recipeToChange.Portions = portion;
+                            _recipeService.UpdateRecipe(recipeToChange);
+                            break;
+                        default:
+                            Console.WriteLine("\r\n Your choice is incorrect");
+                            break;
                     }
                 }
                 else
@@ -270,12 +322,54 @@ namespace CookBook.App.Managers
                 Console.WriteLine("\r\nInvalid input for recipe id.");
             }
             Console.WriteLine("\r\nDo you want change data in this recipe: \r\n1 - yes\r\n2 - no");
-            var againEdit = Console.ReadLine();
-            Int32.TryParse(againEdit.ToString(), out int againEditInt);
+            var againEdit = Console.ReadKey();
+            Int32.TryParse(againEdit.KeyChar.ToString(), out int againEditInt);
             if (againEditInt == 1)
             {
                 EditRecipe();
             }
+            //koniec edit
+        }
+
+
+
+
+
+        public Recipe GetRecipeById(int id)
+        {
+            var recipe = _recipeService.GetRecipeById(id);
+            return recipe;
+        }
+
+        public void RemoveRecipeById(int id)
+        {
+            var recipe = _recipeService.GetRecipeById(id);
+            _recipeService.RemoveRecipe(recipe);
+        }
+
+        public int GetLastId()
+        {
+            var recipeLastId = _recipeService.GetLastId();
+            return recipeLastId;
+        }
+
+        public int AddRecipeNew(Recipe recipe)
+        {
+            int recipeId = _recipeService.AddRecipe(recipe);
+
+            return recipeId;
+        }
+
+        public object GetAllRecipes()
+        {
+            return _recipeService.GetAllRecipes();
+
+        }
+        public int EditRecipeById(int id)
+        {
+            var recipe = _recipeService.GetRecipeById(id);
+            _recipeService.UpdateRecipe(recipe);
+            return recipe.Id;
         }
     }
 }

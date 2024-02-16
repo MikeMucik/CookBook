@@ -10,6 +10,9 @@ namespace CookBook.App.Abstract
     {
         List<T> Recipes { get; set; }
 
+        List<T> GetAllRecipes();
+        T GetRecipeById(int id);
+        int GetLastId();
         int AddRecipe(T recipe);
         int UpdateRecipe(T recipe);
         void RemoveRecipe(T recipe);

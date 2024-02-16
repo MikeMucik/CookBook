@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using CookBook.App.Abstract;
 using CookBook.App.Concrete;
-//using.CookBook.App.Managers;
 using CookBook.Domain.Common;
 using CookBook.Domain.Entity;
 

@@ -14,14 +14,8 @@ namespace CookBook
         static void Main(string[] args)
         {
             MenuActionService actionService = new MenuActionService();
-            RecipeManager recipeManager = new RecipeManager(actionService);
-            //RecipeService recipeService = new RecipeService();
-            //IService<MenuAction> actionService = new MenuActionService();
-            //IService<Recipe> recipeService = new RecipeService();
-            //MenuActionService actionService = new();
-            //RecipeService recipeService = new();
-
-            //actionService = Initialize(actionService);
+            RecipeService recipeService = new RecipeService();
+            RecipeManager recipeManager = new RecipeManager(actionService, recipeService);
 
             Console.WriteLine("Welcome in our CookBook");
             while (true)
@@ -38,32 +32,27 @@ namespace CookBook
                 {
                     case '1':
                         recipeManager.AddNewRecipe();
-                        //var keyInfo = recipeService.AddNewRecipeView(actionService); //wybierz kategorię posiłku
-                        //recipeService.AddNewRecipe(keyInfo.KeyChar);
                         break;
 
                     case '2':
                         recipeManager.RemoveRecipeById();
-                        //var removeId = recipeService.RemoveRecipeView();
-                        //recipeService.RemoveRecipe(removeId);
                         break;
 
                     case '3':
                         recipeManager.GetByIdRecipe();
-                        //var detailId = recipeService.RecipeChooseIdView();
-                        //recipeService.ShowRecipe(detailId);
                         break;
 
                     case '4':
+                        //Console.WriteLine("\r\nPlease enter one ingredient to show recipes: ");
+                        //var recipesToShowByIngredient = Console.ReadLine();
                         recipeManager.GetRecipeByIngredient();
-                        //var detailRecipeByIngredient = recipeService.RecipeChooseIngredientView();
-                        //recipeService.ShowRecipesByIngredient(detailRecipeByIngredient);
                         break;
 
                     case '5':
+                        //Console.WriteLine("\r\nPlease enter number of category of recipes to show: ");
+                        //var categoryIdString = Console.ReadKey(); 
+                        //Int32.TryParse(categoryIdString.KeyChar.ToString(), out int categoryId);
                         recipeManager.GetRecipesByCategory();
-                        //var detailRecipeByCategory = recipeService.RecipeChooseCategoryView();
-                        //recipeService.ShowRecipesByCategory(detailRecipeByCategory);
                         break;
 
                     case '6':
