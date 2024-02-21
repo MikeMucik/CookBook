@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using CookBook.App.Concrete;
 using CookBook.Domain.Entity;
 using CookBook.App.Abstract;
-using CookBook.App.Common; // to dodałem bo AddRecipeNew nie używa AddRecipe tj nie zwraca recipe.Id daje zero zaniast 1 ???
 using System.Xml.Linq;
 
 namespace CookBook.App.Managers
@@ -32,7 +31,7 @@ namespace CookBook.App.Managers
             }
             var operation = Console.ReadKey();
             //int categoryId;
-            Int32.TryParse(operation.KeyChar.ToString(), out int categoryId);
+            int.TryParse(operation.KeyChar.ToString(), out int categoryId);
             Console.WriteLine("\r\nPlease enter name for a new recipe: ");
             var name = Console.ReadLine();
             Console.WriteLine("\r\nPlease enter number of ingredients: ");
@@ -40,7 +39,7 @@ namespace CookBook.App.Managers
             //sprawdzenie czy użytkownik podał liczbę
 
             int recipeNumberOfIgredient;
-            bool isNumeric = Int32.TryParse(numberOfIngredient, out recipeNumberOfIgredient);
+            bool isNumeric = int.TryParse(numberOfIngredient, out recipeNumberOfIgredient);
             var ingredients = new List<Ingredient>();
             if (isNumeric)
             {
@@ -50,10 +49,9 @@ namespace CookBook.App.Managers
                     var nameIngredient = Console.ReadLine();
                     Console.WriteLine($"\r\nPlease enter quantity of{nameIngredient}:");
                     var quantityString = Console.ReadLine();
-                    if (Int32.TryParse(quantityString?.ToString(), out int quantity))
+                    if (int.TryParse(quantityString?.ToString(), out int quantity))
                     {
-                        Console.WriteLine($"\r\nPlease enter unit of{nameIngredient}:");
-
+                        Console.WriteLine($"\r\nPlease enter unit of {nameIngredient}:");
                     }
                     else
                     {
@@ -74,9 +72,10 @@ namespace CookBook.App.Managers
             var timeOfPreparation = Console.ReadLine();
             Console.WriteLine("\r\nPlease enter dificult of recipe: ");
             var dificultOfPreparationString = Console.ReadKey();
-            Int32.TryParse(dificultOfPreparationString.KeyChar.ToString(), out int dificultOfPreparation);
+            int.TryParse(dificultOfPreparationString.KeyChar.ToString(), out int dificultOfPreparation);
+            Console.WriteLine("\r\nPlease enter number of portions: ");
             var numberOfPortionsString = Console.ReadKey();
-            Int32.TryParse(numberOfPortionsString.KeyChar.ToString(), out int numberOfProportions);
+            int.TryParse(numberOfPortionsString.KeyChar.ToString(), out int numberOfProportions);
             var lastId = _recipeService.GetLastId();
             var lastIdHere = lastId + 1;
             //czy wprowadzenie lastId dało efekt?
@@ -143,7 +142,7 @@ namespace CookBook.App.Managers
             }
         }
 
-        public void GetRecipeByIngredient()
+        public void GetRecipeByIngredient() 
         {
             Console.WriteLine("\r\nPlease enter one ingredient to show recipes: ");
             var recipesToShowByIngredient = Console.ReadLine();
@@ -152,18 +151,20 @@ namespace CookBook.App.Managers
             var allRecipes = _recipeService.GetAllRecipes();
             foreach (var recipe in allRecipes)
             {
-                if (recipe.Ingredients.Any(i => i.NameIngredient == recipesToShowByIngredient)) ;
+                if (recipe.Ingredients.Any(i => i.NameIngredient == recipesToShowByIngredient))
                 // tu zacznij dalej poprawiać ?
                 {
                     matchingRecipes.Add(recipe);
                 }
-
-                if (matchingRecipes.Count == 0)
-                {
-                    Console.WriteLine("There is no recipes with insert ingredient");
-                   // GetRecipeByIngredient();
-                }
-                else
+            }
+            if (matchingRecipes.Count == 0)
+            {
+                Console.WriteLine("There is no recipes with insert ingredient");
+                // GetRecipeByIngredient();
+            }
+            else
+            {
+                foreach (var recipe in matchingRecipes)
                 {
                     Console.WriteLine($"\r\nRecipe id: {recipe.Id} \r\nRecipe name: {recipe.Name} \r\nRecipe category: {recipe.CategoryId}");
 
@@ -177,7 +178,6 @@ namespace CookBook.App.Managers
                     Console.WriteLine($"Difficult: {recipe.Difficulty}");
                     Console.WriteLine($"Portions: {recipe.Portions}");
                 }
-
             }
         }
 
@@ -185,8 +185,7 @@ namespace CookBook.App.Managers
         {
             Console.WriteLine("\r\nPlease enter number of category of recipes to show: ");
             var recipeCategory = Console.ReadLine();
-            int category;
-            Int32.TryParse(recipeCategory, out category);
+            int.TryParse(recipeCategory, out int category);
             var allRecipes = _recipeService.GetAllRecipes();
             List<Recipe> productToShow = new List<Recipe>();
             foreach (var recipe in allRecipes)
@@ -213,14 +212,13 @@ namespace CookBook.App.Managers
                 }
                 //return recipe;
             }
-
         }
 
         public void EditRecipe()
         {
             Console.WriteLine("\r\nPlease insert id to edit:");
             var recipeToEdit = Console.ReadLine();
-            if (Int32.TryParse(recipeToEdit, out int idToChange))
+            if (int.TryParse(recipeToEdit, out int idToChange))
             {
                 Recipe recipeToChange = _recipeService.GetRecipeById(idToChange);
                 if (recipeToChange != null)
@@ -232,13 +230,13 @@ namespace CookBook.App.Managers
                         Console.WriteLine($"{kindOfData[i].Id} {kindOfData[i].Name}");
                     }
                     var selectKindOfData = Console.ReadKey();
-                    Int32.TryParse(selectKindOfData.KeyChar.ToString(), out int categoryDataId);
+                    int.TryParse(selectKindOfData.KeyChar.ToString(), out int categoryDataId);
                     switch (categoryDataId)
                     {
                         case 1:
                             Console.WriteLine("\r\nInsert new name of recipe: ");
                             var newName = Console.ReadLine();
-                            recipeToChange.Name = newName;
+                            recipeToChange.Name = newName; // w tym miejscu jest zmieniana wartość a następnie podmieniana
                             _recipeService.UpdateRecipe(recipeToChange);
                             break;
                         case 2:
@@ -250,36 +248,62 @@ namespace CookBook.App.Managers
                             }
                             var operation = Console.ReadKey();
                             //int categoryId;
-                            Int32.TryParse(operation.KeyChar.ToString(), out int categoryId);
+                            int.TryParse(operation.KeyChar.ToString(), out int categoryId);
                             recipeToChange.CategoryId = categoryId;
                             _recipeService.UpdateRecipe(recipeToChange);
                             break;
                         case 3:
-                            Console.WriteLine("\r\nPlease enter number of ingredients: ");
-                            var numberOfIngredient = Console.ReadLine();
-                            int recipeNumberOfIgredient;
-                            bool isNumeric = Int32.TryParse(numberOfIngredient, out recipeNumberOfIgredient);
-                            var ingredients = new List<Ingredient>();
-                            if (isNumeric)
+                            Console.WriteLine("\r\nDo you want add or edit ingredients :");
+                            Console.WriteLine("1 - add ingredients.");
+                            Console.WriteLine("2 - edit ingredients.");
+                            var selectOperationWithIngredientsS = Console.ReadKey();
+                            int.TryParse(selectOperationWithIngredientsS.KeyChar.ToString(), out int selectOperationWithIngredients);
+                            switch (selectOperationWithIngredients)
                             {
-                                for (int i = 0; i < recipeNumberOfIgredient; i++)
-                                {
-                                    Console.WriteLine($"\r\nPlease enter {i + 1} ingredients:");
-                                    var name = Console.ReadLine();
-                                    Console.WriteLine($"\r\nPlease enter quantity of {name}:");
-                                    var quantityString = Console.ReadLine();
-                                    Int32.TryParse(quantityString.ToString(), out int quantity);
-                                    Console.WriteLine($"\r\nPlease enter unit of {name}:");
-                                    var unit = Console.ReadLine();
-                                    ingredients.Add(new Ingredient(name, quantity, unit));
-                                }
+                                case 1:
+                                    //tu będziemy dodawać składnik
+                                    var ingredient = new List<Ingredient>();
+                                    Console.WriteLine("\r\nPlease enter name of new ingredient: ");
+                                    var nameAddedIngredient = Console.ReadLine();
+                                    Console.WriteLine($"\r\nPlease enter quantity of {nameAddedIngredient}:");
+                                    var quantityStringAdded = Console.ReadLine();
+                                    int.TryParse(quantityStringAdded, out int quantityAdded);
+                                    Console.WriteLine($"\r\nPlease enter unit of {nameAddedIngredient}:");
+                                    var unitAdded = Console.ReadLine();
+                                    ingredient = recipeToChange.Ingredients;
+                                    ingredient.Add(new Ingredient(nameAddedIngredient, quantityAdded, unitAdded));
+                                    recipeToChange.Ingredients = ingredient;
+                                    _recipeService.UpdateRecipe(recipeToChange);
+                                    break;
+                                case 2:
+
+                                    Console.WriteLine("\r\nPlease enter number of ingredients: ");
+                                    var numberOfIngredient = Console.ReadLine();
+                                    int recipeNumberOfIgredient;
+                                    bool isNumeric = int.TryParse(numberOfIngredient, out recipeNumberOfIgredient);
+                                    var ingredients = new List<Ingredient>();
+                                    if (isNumeric)
+                                    {
+                                        for (int i = 0; i < recipeNumberOfIgredient; i++)
+                                        {
+                                            Console.WriteLine($"\r\nPlease enter {i + 1} ingredients:");
+                                            var name = Console.ReadLine();
+                                            Console.WriteLine($"\r\nPlease enter quantity of {name}:");
+                                            var quantityString = Console.ReadLine();
+                                            int.TryParse(quantityString, out int quantity);
+                                            Console.WriteLine($"\r\nPlease enter unit of {name}:");
+                                            var unit = Console.ReadLine();
+                                            ingredients.Add(new Ingredient(name, quantity, unit));
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("You didn't enter number of ingredients");
+                                    }
+                                    recipeToChange.Ingredients = ingredients;
+                                    _recipeService.UpdateRecipe(recipeToChange);
+                                    break;
                             }
-                            else
-                            {
-                                Console.WriteLine("You didn't enter number of ingredients");
-                            }
-                            recipeToChange.Ingredients = ingredients;
-                            _recipeService.UpdateRecipe(recipeToChange);
                             break;
                         case 4:
                             Console.WriteLine("\r\nInsert new description of recipe: ");
@@ -296,17 +320,18 @@ namespace CookBook.App.Managers
                         case 6:
                             Console.WriteLine("\r\nInsert new diffuclt of recipe :");
                             var newDifficultOfRecipeString = Console.ReadKey();
-                            Int32.TryParse(newDifficultOfRecipeString.KeyChar.ToString(), out int difficult);
+                            int.TryParse(newDifficultOfRecipeString.KeyChar.ToString(), out int difficult);
                             recipeToChange.Difficulty = difficult;
                             _recipeService.UpdateRecipe(recipeToChange);
                             break;
                         case 7:
                             Console.WriteLine("\r\nInsert new number portions of recipe :");
                             var newNumberOfPortions = Console.ReadKey();
-                            Int32.TryParse(newNumberOfPortions.KeyChar.ToString(), out int portion);
+                            int.TryParse(newNumberOfPortions.KeyChar.ToString(), out int portion);
                             recipeToChange.Portions = portion;
                             _recipeService.UpdateRecipe(recipeToChange);
                             break;
+
                         default:
                             Console.WriteLine("\r\n Your choice is incorrect");
                             break;
@@ -323,7 +348,7 @@ namespace CookBook.App.Managers
             }
             Console.WriteLine("\r\nDo you want change data in this recipe: \r\n1 - yes\r\n2 - no");
             var againEdit = Console.ReadKey();
-            Int32.TryParse(againEdit.KeyChar.ToString(), out int againEditInt);
+            int.TryParse(againEdit.KeyChar.ToString(), out int againEditInt);
             if (againEditInt == 1)
             {
                 EditRecipe();

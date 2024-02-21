@@ -47,6 +47,7 @@ namespace CookBook.App.Common
         {
             Recipes.Remove(recipe);
         }
+
         public T GetRecipeById(int id)
         {
             var entity = Recipes.FirstOrDefault(r => r.Id == id);
@@ -64,5 +65,5 @@ namespace CookBook.App.Common
             return recipe.Id;
             //return entity != null ? entity.Id : 0;
         }
-    }
+    }   
 }

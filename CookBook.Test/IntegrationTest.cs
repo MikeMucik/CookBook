@@ -57,10 +57,8 @@ namespace CookBook.Test
             //recipeService.Recipes.FirstOrDefault(r => r.Id == recipe.Id).Should().NotBeNull();
             //Clean
             manager.RemoveRecipeById(recipe.Id);
-
-
-
         }
+
         [Fact]
         public void CanGetLastId()
         {
@@ -86,7 +84,6 @@ namespace CookBook.Test
             //Clean
             recipeService.RemoveRecipe(recipe);
         }
-
 
 
         [Fact]
@@ -151,56 +148,9 @@ namespace CookBook.Test
             //Act
             var editedRecipe = manager.EditRecipeById(editedId);
             //Assert
-
-
+            editedRecipe.Should().Be(recipe.Id);
+            editedRecipe.Equals(recipe);
         }
-
-        //[Fact]
-        //public void CanShowRecipesByCategotyId()
-        //{
-        //    //Arrange
-        //    List<Ingredient> ingredients = new List<Ingredient>
-        //    {
-        //        new Ingredient("Egg", 3, "pieces"),
-        //        new Ingredient("Butter", 25, "grams"),
-        //        new Ingredient("Salt", 2, "pinches")
-        //    };
-        //    Recipe recipe = new Recipe(1, "fried eggs", 1, ingredients, " ALe jaja", "15 minut",1,1);
-        //    IService<Recipe> recipeService = new RecipeService();
-        //    recipeService.AddRecipe(recipe);
-        //    //recipeCategory = 1; jak ustawić kategorię nie robiąc bałaganu w program?
-        //    var manager = new RecipeManager(new MenuActionService(), recipeService);
-        //    //Act
-        //    manager.GetRecipesByCategory(1);
-        //    // manager.GetRecipesByCategory();
-
-        //    //Assert
-        //    //returnedRecipe.Should().BeSameAs(recipe);
-        //    recipeService.Recipes.FirstOrDefault(r => r.Id == recipe.Id).Should().BeNull();
-        //    //Clean
-        //    manager.RemoveRecipeById(recipe.Id);
-        //}
-        //[Fact]
-        //public void CanFindRecipeByIngredient()
-        //{
-        //    //Arrange
-        //List<Ingredient> ingredients = new List<Ingredient>
-        //    {
-        //        new Ingredient("Egg", 3, "pieces"),
-        //        new Ingredient("Butter", 25, "grams"),
-        //        new Ingredient("Salt", 2, "pinches")
-        //    };
-
-        //    Recipe recipe = new Recipe(1, "fried eggs", 1, ingredients, " ALe jaja", "15 minut",1,1);
-        //    IService<Recipe> recipeService = new RecipeService();
-        //    recipeService.AddRecipe(recipe);
-        //    var manager = new RecipeManager(new MenuActionService(), recipeService);
-        //    //Act
-        //    manager.GetRecipeByIngredient("butter");
-        //    //Assert
-        //    //recipeService.Recipes.Should.;
-        //}
-
     }
 }
 

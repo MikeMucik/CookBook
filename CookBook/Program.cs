@@ -13,12 +13,33 @@ namespace CookBook
     {
         static void Main(string[] args)
         {
+            //List<Ingredient> ingredients = new List<Ingredient>
+            //{
+            //    new Ingredient("Egg", 3, "pieces"),
+            //    new Ingredient("Butter", 25, "grams"),
+            //    new Ingredient("Salt", 2, "pinches")
+            //};
+            //Recipe recipe = new Recipe(1, "fried eggs", 1, ingredients, " ALe jaja", "15 minut", 1, 1);
+            //List<Ingredient> ingredients1 = new List<Ingredient>
+            //{
+            //    new Ingredient("Bread", 2, "slices"),
+            //    new Ingredient("Butter", 25, "grams"),
+            //    new Ingredient("ham", 2, "slices")
+            //};
+            //Recipe recipe1 = new Recipe(2, "sandwich", 1, ingredients1, " Ale kanapka", "5 minut", 1, 1);
+            //List<Recipe> list = new List<Recipe>();
+            //List<Recipe> recipes = list;
+            //list.Add(recipe1);
+            //list.Add(recipe);
+
+
             MenuActionService actionService = new MenuActionService();
             RecipeService recipeService = new RecipeService();
             RecipeManager recipeManager = new RecipeManager(actionService, recipeService);
 
             Console.WriteLine("Welcome in our CookBook");
-            while (true)
+            bool programRun = true;
+            while (programRun == true)
             {
                 Console.WriteLine("\r\nPlease select an option: ");
                 var mainMenu = actionService.GetMenuActionsByMenuName("Main");
@@ -26,7 +47,6 @@ namespace CookBook
                 {
                     Console.WriteLine($"{mainMenu[i].Id} {mainMenu[i].Name}");
                 }
-
                 var operation = Console.ReadKey();
                 switch (operation.KeyChar)
                 {
@@ -58,7 +78,10 @@ namespace CookBook
                     case '6':
                         recipeManager.EditRecipe();
                         break;
-
+                    case '7':
+                        Console.WriteLine("\r\nYou leave the program.");
+                        programRun = false;
+                        break;
                     default:
                         Console.WriteLine("\r\n Your choice is incorrect");
                         break;

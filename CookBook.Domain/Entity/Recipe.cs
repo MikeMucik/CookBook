@@ -20,7 +20,7 @@ namespace CookBook.Domain.Entity
         public int? Portions { get; set; }
         public Recipe(int id, string? name, int categoryId, List<Ingredient> ingredients, string? description, string? timeOfPreparation, int? difficulty, int? portions)
         {
-            Id = id;//czy to dało efekt?
+            Id = id;//czy to potrzebne??
             Name = name;
             CategoryId = categoryId;
             Ingredients = ingredients;

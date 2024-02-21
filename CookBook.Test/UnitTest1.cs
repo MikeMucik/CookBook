@@ -57,7 +57,6 @@ namespace CookBook.Test
             var returnedRecipe = manager.GetRecipeById(recipe.Id);
             //Assert
             Assert.NotEqual(recipe, returnedRecipe);
-            //returnedRecipe.Should().BeOfType(typeof(Recipe));
             returnedRecipe.Should().BeNull();
         }
 
@@ -126,9 +125,11 @@ namespace CookBook.Test
             var manager = new RecipeManager(new MenuActionService(), mock.Object);
             //Act
             var returnedRecipeId = manager.AddRecipeNew(recipe); // to jest int
+            Recipe returnedRecipe = manager.GetRecipeById(returnedRecipeId);
             //Assert
             Assert.Equal(recipe.Id, returnedRecipeId); // czy metoda zwraca to samo id co posiada obiekt mock
             mock.Verify(s => s.AddRecipe(recipe)); //czy metoda zosta³a wywo³ana
+          //  Assert.Equal(recipe, returnedRecipe);
         }
 
         [Fact]
@@ -191,41 +192,5 @@ namespace CookBook.Test
             editedRecipe.Should().Be(recipe.Id); // czy do edycji zosta³ wziêty przepis z id = 1 ?
             editedRecipe.Equals(recipe);
         }
-
-
-
-
-
-
-
-        [Fact]
-        public void CanAddRecipeBig() //AddNewRecipe a nie AddRecipeNew, nie wiem czy to wogóle potrzebne
-        {
-            //Arrange
-            //Prepare data
-            List<Ingredient> ingredients = new List<Ingredient>
-            {
-                new Ingredient("Egg", 3, "piece"),
-                new Ingredient("Butter", 25, "grams"),
-                new Ingredient("Salt", 2, "pinches")
-            };
-            Recipe recipe = new Recipe(1, "fried eggs", 1, ingredients, " ALe jaja", "15 minut", 1, 1);
-            //Prepare rest
-            var mock = new Mock<IService<Recipe>>();
-            //mock.Setup(s => s.GetRecipeById(1)).Returns(recipe);
-            var manager = new RecipeManager(new MenuActionService(), mock.Object);
-            //Act
-            var returnedRecipe = manager.AddNewRecipe(); // to jest int wartoœæ 0 a nie 1
-            //Assert
-            //Assert.Equal(recipe.Id, returnedRecipe);
-            //returnedRecipe.Should().BeOfType(typeof(Recipe));
-            //returnedRecipe.Should().NotBeNull();
-            //returnedRecipe.Should().BeSameAs(recipe);
-            mock.Verify(s => s.AddRecipe(recipe));
-        }
-
-
-
-       
     }
 }

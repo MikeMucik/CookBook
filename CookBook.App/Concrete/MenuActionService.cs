@@ -34,7 +34,8 @@ namespace CookBook.App.Concrete
             AddRecipe(new MenuAction(3, "Show recipe by id", "Main"));
             AddRecipe(new MenuAction(4, "Find recipes by ingredient", "Main"));
             AddRecipe(new MenuAction(5, "Find recipe by category", "Main"));
-            AddRecipe(new MenuAction(6, "Edit recipe", "Main"));            ;
+            AddRecipe(new MenuAction(6, "Edit recipe", "Main"));         
+            AddRecipe(new MenuAction(7, "Exit program", "Main"));
 
             AddRecipe(new MenuAction(1, "Breakfast", "AddNewRecipeMenu"));
             AddRecipe(new MenuAction(2, "Lunch", "AddNewRecipeMenu"));
@@ -49,6 +50,8 @@ namespace CookBook.App.Concrete
             AddRecipe(new MenuAction(3, "Ingredients", "KindOfData"));
             AddRecipe(new MenuAction(4, "Description", "KindOfData"));
             AddRecipe(new MenuAction(5, "Preparation time", "KindOfData"));
+            AddRecipe(new MenuAction(6, "Difficult", "KindOfData"));
+            AddRecipe(new MenuAction(7, "Number of portions", "KindOfData"));
         }
     }
 }
