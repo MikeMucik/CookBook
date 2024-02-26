@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CookBook.App.Abstract;
-using CookBook.App.Concrete;
 using CookBook.Domain.Common;
-using CookBook.Domain.Entity;
+
 
 namespace CookBook.App.Common
 {
@@ -65,5 +64,14 @@ namespace CookBook.App.Common
             return recipe.Id;
             //return entity != null ? entity.Id : 0;
         }
+        //public List<T> GetByIngredient(string ingredient) // 
+        //{
+        //    foreach (var recipe in Recipes)
+        //    {
+        //        if ()
+        //    }
+        //    var entity = Recipes
+        //    return Recipes;
+        //}
     }   
 }

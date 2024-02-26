@@ -29,6 +29,11 @@ namespace CookBook.Domain.Entity
             Difficulty = difficulty;
             Portions = portions;
         }
+        public Recipe() 
+        {
+            Ingredients = new List<Ingredient>();
+        }
+
     }
     public class Ingredient// : BaseEntity
     {
@@ -41,11 +46,9 @@ namespace CookBook.Domain.Entity
             Quantity = quantity;
             Unit = unit;
         }
+        public Ingredient() 
+        {
+
+        }
     }
-    //public Recipe()
-    //{
-    //    public List<Ingredient> Ingredients { get; set; }
-    //}
-
-
 }

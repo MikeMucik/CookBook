@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Linq;
-using CookBook.App.Abstract;
 using CookBook.App.Concrete;
 using CookBook.App.Managers;
-using CookBook.Domain.Entity;
 
 namespace CookBook
 {
     public class Program
     {
+        public const string FILE_NAME = @"C:\CookBookFiles\ImportFile.xlsx";
         static void Main(string[] args)
         {
             //List<Ingredient> ingredients = new List<Ingredient>
@@ -31,7 +30,11 @@ namespace CookBook
             //List<Recipe> recipes = list;
             //list.Add(recipe1);
             //list.Add(recipe);
-
+            //ListService listService = new ListService();
+            //var recipes = listService.MethodRead();
+            //List<Recipe> myRecipes = listService.MethodRead();
+            //RecipeManager recipeManager
+            //Recipes.AddRange(myRecipes);
 
             MenuActionService actionService = new MenuActionService();
             RecipeService recipeService = new RecipeService();
@@ -55,7 +58,7 @@ namespace CookBook
                         break;
 
                     case '2':
-                        recipeManager.RemoveRecipeById();
+                        recipeManager.DeleteRecipeById();
                         break;
 
                     case '3':
