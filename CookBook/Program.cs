@@ -66,15 +66,10 @@ namespace CookBook
                         break;
 
                     case '4':
-                        //Console.WriteLine("\r\nPlease enter one ingredient to show recipes: ");
-                        //var recipesToShowByIngredient = Console.ReadLine();
                         recipeManager.GetRecipeByIngredient();
                         break;
 
                     case '5':
-                        //Console.WriteLine("\r\nPlease enter number of category of recipes to show: ");
-                        //var categoryIdString = Console.ReadKey(); 
-                        //Int32.TryParse(categoryIdString.KeyChar.ToString(), out int categoryId);
                         recipeManager.GetRecipesByCategory();
                         break;
 

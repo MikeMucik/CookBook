@@ -13,7 +13,7 @@ namespace CookBook.App.Managers
     {
         private readonly MenuActionService _actionService;
         private IService<Recipe> _recipeService;
-     
+
         public RecipeManager(MenuActionService actionService, IService<Recipe> recipeService)
         {
             _recipeService = recipeService;
@@ -29,7 +29,6 @@ namespace CookBook.App.Managers
                 Console.WriteLine($"{addNewRecipeMenu[i].Id} {addNewRecipeMenu[i].Name}");
             }
             var operation = Console.ReadKey();
-            //int categoryId;
             int.TryParse(operation.KeyChar.ToString(), out int categoryId);
             Console.WriteLine("\r\nPlease enter name for a new recipe: ");
             var name = Console.ReadLine();
@@ -55,7 +54,7 @@ namespace CookBook.App.Managers
                     else
                     {
                         Console.WriteLine("Your insert is not correct. Please try again");
-                       // AddNewRecipe(); 
+                        // AddNewRecipe(); 
                     }
                     var unit = Console.ReadLine();
                     ingredients.Add(new Ingredient(nameIngredient, quantity, unit));
@@ -90,16 +89,7 @@ namespace CookBook.App.Managers
             if (int.TryParse(idToRemove, out int id))
             {
                 RemoveRecipeById(id);
-                //Recipe recipeToRemove = _recipeService.GetRecipeById(id);
-                //if (recipeToRemove != null)
-                //{
-                //    _recipeService.RemoveRecipe(recipeToRemove);
-                    Console.WriteLine("\r\nRecipe delete successfully.");
-                //}
-                //else
-                //{
-                //    Console.WriteLine("\r\nRecipe with this id is not exist.");
-                //}
+                Console.WriteLine("\r\nRecipe delete successfully.");
             }
             else
             {
@@ -142,7 +132,7 @@ namespace CookBook.App.Managers
             }
         }
 
-        public void GetRecipeByIngredient() 
+        public void GetRecipeByIngredient()
         {
             Console.WriteLine("\r\nPlease enter one ingredient to show recipes: ");
             var recipesToShowByIngredient = Console.ReadLine();
@@ -209,8 +199,7 @@ namespace CookBook.App.Managers
                 else
                 {
                     Console.WriteLine("There is no recipes with insert category");
-                }
-                //return recipe;
+                }                
             }
         }
 
@@ -246,8 +235,7 @@ namespace CookBook.App.Managers
                             {
                                 Console.WriteLine($"{addNewRecipeMenu[i].Id} {addNewRecipeMenu[i].Name}");
                             }
-                            var operation = Console.ReadKey();
-                            //int categoryId;
+                            var operation = Console.ReadKey();                            
                             int.TryParse(operation.KeyChar.ToString(), out int categoryId);
                             recipeToChange.CategoryId = categoryId;
                             _recipeService.UpdateRecipe(recipeToChange);
@@ -355,16 +343,6 @@ namespace CookBook.App.Managers
             }
         }
 
-
-
-
-
-        //public Recipe GetRecipeById(int id)
-        //{
-        //    var recipe = _recipeService.GetRecipeById(id);
-        //    return recipe;
-        //}
-
         public void RemoveRecipeById(int id)// może to do recipe service 
         {
             var recipe = _recipeService.GetRecipeById(id);
@@ -376,36 +354,6 @@ namespace CookBook.App.Managers
             {
                 Console.WriteLine("You have selected an Id number that does not contain a recipe");
             }
-        }
-
-        //public int GetLastId()
-        //{
-        //    var recipeLastId = _recipeService.GetLastId();
-        //    return recipeLastId;
-        //}
-
-        //public int AddRecipeNew(Recipe recipe)
-        //{
-        //    int recipeId = _recipeService.AddRecipe(recipe);
-
-        //    return recipeId;
-        //}
-
-        //public object GetAllRecipes()
-        //{
-        //    return _recipeService.GetAllRecipes();
-
-        //}
-        //public int EditRecipeById(int id) //do zmianyn edit bez Id samo edit
-        //{
-        //    var recipe = _recipeService.GetRecipeById(id);
-        //    _recipeService.UpdateRecipe(recipe);
-        //    return recipe.Id;
-        ////}
-        //public int EditRecipe(Recipe recipe)
-        //{
-        //    _recipeService.UpdateRecipe(recipe);
-        //    return recipe.Id;
-        //}
+        }      
     }
 }
