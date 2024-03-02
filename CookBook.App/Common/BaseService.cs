@@ -81,7 +81,7 @@ namespace CookBook.App.Common
             }
             catch (Exception e)
             {
-                Console.WriteLine("Nastąpił błąd w zapisywaniu pliku");
+                Console.WriteLine("\r\nThere was an error saving the file");
             }
         }
 
