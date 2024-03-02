@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using CookBook.App.Abstract;
 using CookBook.Domain.Common;
@@ -64,14 +65,39 @@ namespace CookBook.App.Common
             return recipe.Id;
             //return entity != null ? entity.Id : 0;
         }
-        //public List<T> GetByIngredient(string ingredient) // 
-        //{
-        //    foreach (var recipe in Recipes)
-        //    {
-        //        if ()
-        //    }
-        //    var entity = Recipes
-        //    return Recipes;
-        //}
+
+        public string SerializeListToStringInJson()
+        {
+            string serializeList = JsonSerializer.Serialize(Recipes , new JsonSerializerOptions { WriteIndented = true });
+            return serializeList;
+        }
+
+        public void SaveDataFromListToJson(string serializedFormatJson)
+        {            
+            try
+            {
+                string fileName = @"C:\Temp\recipes.txt";              
+                File.WriteAllText($@"{fileName}", serializedFormatJson);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Nastąpił błąd w zapisywaniu pliku");
+            }
+        }
+
+        public void ReadDataJsonToList()
+        {
+            string fileName = @"C:\Temp\recipes.txt";
+            try
+            {
+                string jsonString = File.ReadAllText(fileName);
+                Recipes = JsonSerializer.Deserialize<List<T>>(jsonString)!;
+            }
+            catch (FileNotFoundException ex)
+            {
+                Console.WriteLine("Warning : Database file not found");
+                return;
+            }
+        }       
     }   
 }

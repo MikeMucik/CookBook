@@ -11,7 +11,7 @@ namespace CookBook.Test
 {
     public class IntegrationTest
     {
-        [Fact] 
+        [Fact]
         public void CanAddRecipe()
         {
             //Arrange
@@ -163,6 +163,7 @@ namespace CookBook.Test
             result.Should().NotBeNull();
             result.Should().BeSameAs(recipe);
         }
+        
     }
 }
 

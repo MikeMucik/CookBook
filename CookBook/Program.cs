@@ -39,7 +39,6 @@ namespace CookBook
             MenuActionService actionService = new MenuActionService();
             RecipeService recipeService = new RecipeService();
             RecipeManager recipeManager = new RecipeManager(actionService, recipeService);
-
             Console.WriteLine("Welcome in our CookBook");
             bool programRun = true;
             while (programRun == true)

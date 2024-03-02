@@ -11,7 +11,7 @@ namespace CookBook.Test
 {
     public class UnitTest1
     {
-   
+
         [Fact]
         public void CanGetRecipeByCorrectId() // to jest ok
         {
@@ -26,10 +26,12 @@ namespace CookBook.Test
             Recipe recipe = new Recipe(1, "fried eggs", 1, ingredients, " ALe jaja", "15 minut", 1, 1);
             //Prepare rest
             var mock = new Mock<IService<Recipe>>();
-            mock.Setup(s => s.GetRecipeById(1)).Returns(recipe);           
+            mock.Setup(s => s.GetRecipeById(1)).Returns(recipe);
+            //var manager = new RecipeManager(new MenuActionService(), mock.Object);
             var recipeService = mock.Object;
             //Act           
             var returnedRecipe = recipeService.GetRecipeById(recipe.Id);
+
             //Assert            
             returnedRecipe.Should().BeOfType(typeof(Recipe));
             returnedRecipe.Should().NotBeNull();
@@ -155,5 +157,45 @@ namespace CookBook.Test
             mock.Verify(s => s.UpdateRecipe(recipe));// czy metoda zosta³a wywo³ana            
             editedRecipe.Equals(recipe);
         }
+
+        [Fact]
+        public void CanAddRecipe1()
+        {
+            //Arrange
+            List<Ingredient> ingredients = new List<Ingredient>
+            {
+                new Ingredient("Egg", 3, "piece"),
+                new Ingredient("Butter", 25, "grams"),
+                new Ingredient("Salt", 2, "pinches")
+            };
+            Recipe recipe = new Recipe(1, "fried eggs", 1, ingredients, "Ale jaja", "15 minut", 1, 1);
+            var recipeServis = new RecipeService();
+            
+            //Act
+            recipeServis.AddRecipe(recipe);
+            //Assert
+            Assert.Single(recipeServis.Recipes);
+            Assert.Equal(recipe.Name, recipeServis.GetRecipeById(recipe.Id).Name);
+        }
+        [Fact]
+        public void CanGetRecipeById1()
+        {
+            //Arrange
+            List<Ingredient> ingredients = new List<Ingredient>
+            {
+                new Ingredient("Egg", 3, "piece"),
+                new Ingredient("Butter", 25, "grams"),
+                new Ingredient("Salt", 2, "pinches")
+            };
+            Recipe recipe = new Recipe(1, "fried eggs", 1, ingredients, "Ale jaja", "15 minut", 1, 1);
+            var recipeService = new RecipeService();
+
+            recipeService.AddRecipe(recipe);         
+            //Act
+            var result = recipeService.GetRecipeById(recipe.Id);
+            //Assert
+            Assert.Equal(recipe, result);
+        }
+
     }
 }

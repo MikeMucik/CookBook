@@ -18,6 +18,7 @@ namespace CookBook.App.Managers
         {
             _recipeService = recipeService;
             _actionService = actionService;
+            _recipeService.ReadDataJsonToList();
         }
 
         public int AddNewRecipe()
@@ -79,6 +80,7 @@ namespace CookBook.App.Managers
             //czy wprowadzenie lastId dało efekt?
             Recipe recipe = new Recipe(lastIdHere, name, categoryId, ingredients, description, timeOfPreparation, dificultOfPreparation, numberOfProportions);
             _recipeService.AddRecipe(recipe);
+            _recipeService.SaveDataFromListToJson(_recipeService.SerializeListToStringInJson());
             return recipe.Id;
         }
 
