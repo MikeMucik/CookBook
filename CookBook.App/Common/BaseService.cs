@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 using CookBook.App.Abstract;
 using CookBook.Domain.Common;
+using Newtonsoft.Json;
 
 
 namespace CookBook.App.Common
@@ -68,36 +68,37 @@ namespace CookBook.App.Common
 
         public string SerializeListToStringInJson()
         {
-            string serializeList = JsonSerializer.Serialize(Recipes , new JsonSerializerOptions { WriteIndented = true });
+            string serializeList = JsonConvert.SerializeObject(Recipes, Formatting.Indented);// to drugie by plik był łatwy do odczytu w txt
             return serializeList;
         }
 
         public void SaveDataFromListToJson(string serializedFormatJson)
-        {            
-            try
+        {
+            string fileNamePath = @"C:\Temp\recipes.txt";
+            if (File.Exists(fileNamePath))
             {
-                string fileName = @"C:\Temp\recipes.txt";              
-                File.WriteAllText($@"{fileName}", serializedFormatJson);
+                File.WriteAllText(fileNamePath, serializedFormatJson);
             }
-            catch (Exception e)
+            else
             {
-                Console.WriteLine("\r\nThere was an error saving the file");
-            }
+                Console.WriteLine("\n\rAn error occurred while trying to save");
+            }            
         }
 
         public void ReadDataJsonToList()
         {
-            string fileName = @"C:\Temp\recipes.txt";
-            try
+           string fileNamePath = @"C:\Temp\recipes.txt";
+            string jsonString = File.ReadAllText(fileNamePath);
+            List<T> deserializedRecipes = JsonConvert.DeserializeObject<List<T>>(jsonString);
+            if (deserializedRecipes != null && deserializedRecipes.Count > 0)
             {
-                string jsonString = File.ReadAllText(fileName);
-                Recipes = JsonSerializer.Deserialize<List<T>>(jsonString)!;
+                Recipes = deserializedRecipes;
             }
-            catch (FileNotFoundException ex)
+            else
             {
-                Console.WriteLine("Warning : Database file not found");
+                Console.WriteLine("Database not found !!");
                 return;
-            }
+            }            
         }       
     }   
 }

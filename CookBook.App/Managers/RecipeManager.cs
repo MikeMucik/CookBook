@@ -81,6 +81,7 @@ namespace CookBook.App.Managers
             Recipe recipe = new Recipe(lastIdHere, name, categoryId, ingredients, description, timeOfPreparation, dificultOfPreparation, numberOfProportions);
             _recipeService.AddRecipe(recipe);
             _recipeService.SaveDataFromListToJson(_recipeService.SerializeListToStringInJson());
+           // _recipeService.SaveListAsJson();
             return recipe.Id;
         }
 
@@ -98,6 +99,7 @@ namespace CookBook.App.Managers
                 Console.WriteLine("\r\nInvalid input for recipe id.");
                 // RemoveRecipeById();
             }
+            _recipeService.SaveDataFromListToJson(_recipeService.SerializeListToStringInJson());
         }
 
         public void GetByIdRecipe()
@@ -144,7 +146,6 @@ namespace CookBook.App.Managers
             foreach (var recipe in allRecipes)
             {
                 if (recipe.Ingredients.Any(i => i.NameIngredient == recipesToShowByIngredient))
-                // tu zacznij dalej poprawiać ?
                 {
                     matchingRecipes.Add(recipe);
                 }
@@ -175,18 +176,27 @@ namespace CookBook.App.Managers
 
         public void GetRecipesByCategory()
         {
+            var addNewRecipeMenu = _actionService.GetMenuActionsByMenuName("AddNewRecipeMenu");
+            Console.WriteLine("\r\nPlease select category of meal: ");
+            for (int i = 0; i < addNewRecipeMenu.Count; i++)
+            {
+                Console.WriteLine($"{addNewRecipeMenu[i].Id} {addNewRecipeMenu[i].Name}");
+            }
             Console.WriteLine("\r\nPlease enter number of category of recipes to show: ");
             var recipeCategory = Console.ReadLine();
             int.TryParse(recipeCategory, out int category);
             var allRecipes = _recipeService.GetAllRecipes();
-            List<Recipe> productToShow = new List<Recipe>();
+            List<Recipe> productToShow = new List<Recipe>();            
             foreach (var recipe in allRecipes)
             {
                 if (recipe.CategoryId == category)
                 {
-                    productToShow.Add(recipe);
+                    productToShow.Add(recipe);                   
                 }
-                if (productToShow.Count > 0)
+            }
+            if (productToShow.Count > 0)
+            {
+                foreach (var recipe in productToShow)
                 {
                     Console.WriteLine($"\r\nRecipe id: {recipe.Id} \r\nRecipe name: {recipe.Name} \r\nRecipe category: {recipe.CategoryId}");
                     Console.WriteLine("Recipe ingredients :");
@@ -198,10 +208,10 @@ namespace CookBook.App.Managers
                     Console.WriteLine($"Difficult: {recipe.Difficulty}");
                     Console.WriteLine($"Portions: {recipe.Portions}");
                 }
-                else
-                {
-                    Console.WriteLine("There is no recipes with insert category");
-                }                
+            }
+            else
+            {
+                Console.WriteLine("There is no recipes with insert category");
             }
         }
 
@@ -227,7 +237,7 @@ namespace CookBook.App.Managers
                         case 1:
                             Console.WriteLine("\r\nInsert new name of recipe: ");
                             var newName = Console.ReadLine();
-                            recipeToChange.Name = newName; // w tym miejscu jest zmieniana wartość a następnie podmieniana
+                            recipeToChange.Name = newName; // w tym miejscu jest zmieniana wartość w przepisie a następnie podmieniany cały przepis
                             _recipeService.UpdateRecipe(recipeToChange);
                             break;
                         case 2:
@@ -237,7 +247,7 @@ namespace CookBook.App.Managers
                             {
                                 Console.WriteLine($"{addNewRecipeMenu[i].Id} {addNewRecipeMenu[i].Name}");
                             }
-                            var operation = Console.ReadKey();                            
+                            var operation = Console.ReadKey();
                             int.TryParse(operation.KeyChar.ToString(), out int categoryId);
                             recipeToChange.CategoryId = categoryId;
                             _recipeService.UpdateRecipe(recipeToChange);
@@ -331,12 +341,13 @@ namespace CookBook.App.Managers
                 {
                     Console.WriteLine("You have selected a non-existent recipe");
                 }
+                _recipeService.SaveDataFromListToJson(_recipeService.SerializeListToStringInJson()); //po edycji nadpisz plik z danymi
             }
             else
             {
                 Console.WriteLine("\r\nInvalid input for recipe id.");
             }
-            Console.WriteLine("\r\nDo you want change data in this recipe: \r\n1 - yes\r\n2 - no");
+            Console.WriteLine("\r\nDo you want change data in recipes: \r\n1 - yes\r\n2 - no");
             var againEdit = Console.ReadKey();
             int.TryParse(againEdit.KeyChar.ToString(), out int againEditInt);
             if (againEditInt == 1)
@@ -356,6 +367,6 @@ namespace CookBook.App.Managers
             {
                 Console.WriteLine("You have selected an Id number that does not contain a recipe");
             }
-        }      
+        }
     }
 }

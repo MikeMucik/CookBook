@@ -11,31 +11,7 @@ namespace CookBook
     {
         public const string FILE_NAME = @"C:\CookBookFiles\ImportFile.xlsx";
         static void Main(string[] args)
-        {
-            //List<Ingredient> ingredients = new List<Ingredient>
-            //{
-            //    new Ingredient("Egg", 3, "pieces"),
-            //    new Ingredient("Butter", 25, "grams"),
-            //    new Ingredient("Salt", 2, "pinches")
-            //};
-            //Recipe recipe = new Recipe(1, "fried eggs", 1, ingredients, " ALe jaja", "15 minut", 1, 1);
-            //List<Ingredient> ingredients1 = new List<Ingredient>
-            //{
-            //    new Ingredient("Bread", 2, "slices"),
-            //    new Ingredient("Butter", 25, "grams"),
-            //    new Ingredient("ham", 2, "slices")
-            //};
-            //Recipe recipe1 = new Recipe(2, "sandwich", 1, ingredients1, " Ale kanapka", "5 minut", 1, 1);
-            //List<Recipe> list = new List<Recipe>();
-            //List<Recipe> recipes = list;
-            //list.Add(recipe1);
-            //list.Add(recipe);
-            //ListService listService = new ListService();
-            //var recipes = listService.MethodRead();
-            //List<Recipe> myRecipes = listService.MethodRead();
-            //RecipeManager recipeManager
-            //Recipes.AddRange(myRecipes);
-
+        {           
             MenuActionService actionService = new MenuActionService();
             RecipeService recipeService = new RecipeService();
             RecipeManager recipeManager = new RecipeManager(actionService, recipeService);
@@ -55,23 +31,18 @@ namespace CookBook
                     case '1':
                         recipeManager.AddNewRecipe();
                         break;
-
                     case '2':
                         recipeManager.DeleteRecipeById();
                         break;
-
                     case '3':
                         recipeManager.GetByIdRecipe();
                         break;
-
                     case '4':
                         recipeManager.GetRecipeByIngredient();
                         break;
-
                     case '5':
                         recipeManager.GetRecipesByCategory();
                         break;
-
                     case '6':
                         recipeManager.EditRecipe();
                         break;

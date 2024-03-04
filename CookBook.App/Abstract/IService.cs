@@ -16,10 +16,12 @@ namespace CookBook.App.Abstract
         int AddRecipe(T recipe);
         int UpdateRecipe(T recipe);
         void RemoveRecipe(T recipe);
+
         //cześć z bazą danych
 
         public void ReadDataJsonToList();
         public void SaveDataFromListToJson(string serializedFormatJson);
-        string SerializeListToStringInJson();
+        public string SerializeListToStringInJson();
+        //public void SaveListAsJson(List<T> list);
     }
 }
